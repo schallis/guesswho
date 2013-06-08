@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Playing game against {{ opponent }}</h2>
+    <p>You are {{ person }}</p>
+    <p>There {{ num_candidates|pluralize:"is,are" }} {{ num_candidates }} candidate{{ num_candidates|pluralize }} left</p>
+    {% if game_over %}
+        <span class="result">
+            The game has ended.
+            {% if user_won %}
+                You won!
+            {% else %}
+                You lost :(
+            {% endif %}
+        </span>
+    {% else %}
+    <h2>Ask Question</h2>
+    <form method='POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Ask">
+    </form>
+    {% endif %}
+    <h2>Remaining Candidates</h2>
+    <ul class="candidate">
+    {% for candidate in candidates %}
+        <li>{{ candidate.name }}</li>
+    {% endfor %}
+    </ul>
+    {% if asked_questions %}
+        <ul class="previous_questions">
+        {% for question in asked_questions %}
+            <li></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

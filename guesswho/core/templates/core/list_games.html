@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Your Games</h2>
+    <ul>
+        {% if object_list %}
+        {% for game in object_list %}
+        <li><a href={% url "play_game" game.pk %}><br />{{ game }}</li>
+        {% endfor %}
+        {% else %}
+        <p>You have not joined any games.</p>
+        {% endif %}
+    </ul>
+{% endblock %}

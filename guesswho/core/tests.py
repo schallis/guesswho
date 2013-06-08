@@ -53,16 +53,6 @@ class ModelTests(TestCase):
 
         eq_(game.player1.candidates.count(), 3)
 
-    def test_invalid_question(self):
-        game = Game.objects.get(pk=1)
-        trait = Trait.objects.get(pk=2)
-        trait_value = TraitValue.objects.get(pk=1)
-        eq_(game.player2.candidates.count(), 3)
-
-        with assert_raises(InvalidQuestion):
-            question = Question(game=game, player=game.player1,
-                                trait=trait, value=trait_value)
-
     def test_game_over(self):
         game = Game.objects.get(pk=1)
         most_candidates = game.player1.candidates.all()[1:]

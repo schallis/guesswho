@@ -40,7 +40,7 @@ class Player(models.Model):
 class Game(models.Model):
     """Record the state for each game between players"""
     players = models.ManyToManyField(Player)
-    start_date = models.DateTimeField(blank=True, null=True)
+    start_date = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     winner = models.ForeignKey(Player, blank=True, null=True,
                                related_name='winning_games')
@@ -102,15 +102,5 @@ class Question(models.Model):
     trait = models.ForeignKey(Trait, related_name='+')
     value = models.ForeignKey(TraitValue)
 
-    def __init__(self, *args, **kwargs):
-        super(Question, self).__init__(*args, **kwargs)
-        if not self.value in self.trait.values.all():
-            msg = 'The trait value ({}) is not valid for the given trait ({})'
-            msg = msg.format(self.value.label, self.trait.name)
-            log.error(msg)
-            raise InvalidQuestion(msg)
-
     class Meta:
         unique_together = [('game', 'player', 'trait', 'value')]
-
-
