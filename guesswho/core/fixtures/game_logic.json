@@ -3,14 +3,16 @@
   "pk": 1,
   "model": "auth.User",
   "fields": {
-    "username": "user1"
+    "username": "user1",
+    "password": "pbkdf2_sha256$10000$xjKkKsZReOEs$GHcG3sBAj0E3IW1ZdSRqSoHCXXSWfqkTclLfs6yfLbs="
   }
 },
 {
   "pk": 2,
   "model": "auth.User",
   "fields": {
-    "username": "user2"
+    "username": "user2",
+    "password": "pbkdf2_sha256$10000$xjKkKsZReOEs$GHcG3sBAj0E3IW1ZdSRqSoHCXXSWfqkTclLfs6yfLbs="
   }
 },
 {

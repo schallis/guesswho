@@ -1,6 +1,8 @@
+from mock import patch, Mock
 from nose.tools import assert_raises, eq_
 
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 
 from guesswho.core.models import (Game, Question, Trait, TraitValue)
 from guesswho.core.logic import (rule_out_candidates, get_game_opponent,
@@ -67,3 +69,58 @@ class LogicTests(TestCase):
 
         with assert_raises(BadGameConfig):
             eq_(is_game_complete(game), True)
+
+
+class TestViews(TestCase):
+
+    fixtures = ['game_logic']
+
+    def setUp(self):
+        self.client.login(username='user1', password='admin')
+
+    def test_games_list(self):
+        response = self.client.get(reverse('list_games'))
+
+        eq_(response.status_code, 200)
+        eq_(response.context['user'].username, 'user1')
+
+    def test_play_get(self):
+        response = self.client.get(reverse('play_game', args=(1,)))
+
+        eq_(response.status_code, 200)
+        eq_(response.context['user'].username, 'user1')
+        eq_(response.context['num_candidates'], 3)
+
+    def test_play_post(self):
+        data = {
+            'question': '1:1'
+        }
+        response = self.client.post(reverse('play_game', args=(1,)), data)
+
+        eq_(response.status_code, 200)
+        eq_(response.context['user'].username, 'user1')
+        eq_(response.context['num_candidates'], 3)
+
+    @patch('guesswho.core.views.is_game_complete')
+    def test_play_post_winning(self, complete):
+        complete.return_value = Mock(pk=1)
+        data = {
+            'question': '1:1'
+        }
+        response = self.client.post(reverse('play_game', args=(1,)), data)
+
+        eq_(response.status_code, 200)
+        eq_(response.context['user'].username, 'user1')
+        eq_(response.context['user_won'], True)
+
+    @patch('guesswho.core.views.is_game_complete')
+    def test_play_post_invalid(self, complete):
+        data = {
+            'question': 'invalid'
+        }
+        response = self.client.post(reverse('play_game', args=(1,)), data)
+
+        eq_(response.status_code, 200)
+        error = {'question': [u'Select a valid choice. invalid is not ' \
+                               'one of the available choices.']}
+        eq_(response.context['form']._errors, error)
