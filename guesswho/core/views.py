@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -45,7 +45,6 @@ def join_game(request):
 
     return render_to_response('core/games_to_join.html', ctx,
                               context_instance=RequestContext(request))
-
 
 
 def play_game(request, game_id):

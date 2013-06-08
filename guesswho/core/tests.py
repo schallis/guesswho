@@ -122,12 +122,12 @@ class TestViews(TestCase):
         response = self.client.post(reverse('play_game', args=(1,)), data)
 
         eq_(response.status_code, 200)
-        error = {'question': [u'Select a valid choice. invalid is not ' \
-                               'one of the available choices.']}
+        error = {'question': [u'Select a valid choice. invalid is not '
+                              'one of the available choices.']}
         eq_(response.context['form']._errors, error)
 
     def test_create_game(self):
-        response = self.client.post(reverse('new_game'), {})
+        self.client.post(reverse('new_game'), {})
 
         eq_(Game.objects.count(), 2)
 
