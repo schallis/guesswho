@@ -1,0 +1,7 @@
+# Packages matching fido's requirements
+Django==1.5.1
+django-nose
+
+djangorestframework==2.2.4
+psycopg2==2.4.1
+South==0.7.2
