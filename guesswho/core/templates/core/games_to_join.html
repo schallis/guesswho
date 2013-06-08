@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Games awaiting players</h2>
+    <ul>
+        {% if games %}
+        {% for game in games%}
+        <li>
+            {{ game }}
+            <form target="{% url "games_to_join" %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value='{{ game.pk }}' name='game_id'>
+                <input type="submit" value="Join">
+            </form>
+        </li>
+        {% endfor %}
+        {% else %}
+        <p>There are no games to join. Why not <a href="{% url "create_game" }">create one</a>.</p>
+        {% endif %}
+    </ul>
+{% endblock %}

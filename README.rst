@@ -15,7 +15,7 @@ will also generate linting (`pep8.txt`, `pylint.txt`) and coverage reports
 TODO:
 =====
 * Enforce asking questions in turns
-* Game creation
-* Game joining
+* Deplete questions as they get asked
 * Prevent more than two players being added to a game
+* Prevent the same user joining their own game
 * Move view logic to API endpoints and implement Ajax frontend

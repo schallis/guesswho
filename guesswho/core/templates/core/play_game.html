@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Playing game against {{ opponent }}</h2>
+    <h2>Playing game against {{ opponent.user }}</h2>
     <p>Your selected person is {{ person }}</p>
     {% if game_over %}
         <span class="result">

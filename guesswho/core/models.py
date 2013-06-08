@@ -25,8 +25,7 @@ class Player(models.Model):
     """Records the game state for a particular player"""
     user = models.ForeignKey('auth.user')
     person = models.ForeignKey(Person, default=random_person)
-    candidates = models.ManyToManyField(Person, default=all_people,
-                                        related_name="+")
+    candidates = models.ManyToManyField(Person, related_name="+")
 
     def __unicode__(self):  # pragma: no cover
         return u'{} (playing as {})'.format(self.user.username,
