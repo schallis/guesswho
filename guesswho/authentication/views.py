@@ -1,22 +1,14 @@
 from django import forms
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-
-class LoginForm(forms.Form):
-
-    player_name = forms.CharField(max_length=50)
+from guesswho.authentication.forms import LoginForm
+from guesswho.authentication.utils import log_user_in_without_password
 
 
-def log_user_in_without_password(request, user):
-    user.backend = 'django.contrib.auth.backends.ModelBackend'
-    auth.login(request, user)
-
-@csrf_protect
 def login_view(request):
     """A simple password-less login page"""
     if request.method == 'POST':
