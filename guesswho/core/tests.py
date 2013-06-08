@@ -3,8 +3,9 @@ from nose.tools import assert_raises, eq_
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
-from guesswho.core.models import (Game, Question, Trait, TraitValue)
+from guesswho.core.models import (Game, Question, Trait, TraitValue, Player)
 from guesswho.core.logic import (rule_out_candidates, get_game_opponent,
         is_game_complete)
 from guesswho.core.exceptions import BadGameConfig
@@ -124,3 +125,23 @@ class TestViews(TestCase):
         error = {'question': [u'Select a valid choice. invalid is not ' \
                                'one of the available choices.']}
         eq_(response.context['form']._errors, error)
+
+    def test_create_game(self):
+        response = self.client.post(reverse('new_game'), {})
+
+        eq_(Game.objects.count(), 2)
+
+    def test_join_game_post(self):
+        game = Game.objects.create()
+        game.players.add(Player.objects.create(user=User.objects.get(pk=1)))
+        game.save()
+
+        response = self.client.post(reverse('games_to_join'),
+                                    {"game_id": game.pk})
+
+        eq_(response.status_code, 302)
+
+    def test_join_game_get(self):
+        response = self.client.get(reverse('games_to_join'))
+
+        eq_(response.status_code, 200)
