@@ -20,7 +20,7 @@ def has_player_won(player):
 def is_game_complete(game):
     for player in [game.player1, game.player2]:
         if has_player_won(player):
-            game.completed = True
+            game.complete = True
             game.winner = player
             game.save()
             return player

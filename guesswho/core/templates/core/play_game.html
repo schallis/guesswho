@@ -2,8 +2,7 @@
 
 {% block content %}
     <h2>Playing game against {{ opponent }}</h2>
-    <p>You are {{ person }}</p>
-    <p>There {{ num_candidates|pluralize:"is,are" }} {{ num_candidates }} candidate{{ num_candidates|pluralize }} left</p>
+    <p>Your selected person is {{ person }}</p>
     {% if game_over %}
         <span class="result">
             The game has ended.
@@ -22,6 +21,7 @@
     </form>
     {% endif %}
     <h2>Remaining Candidates</h2>
+    <p>There {{ num_candidates|pluralize:"is,are" }} {{ num_candidates }} candidate{{ num_candidates|pluralize }} left</p>
     <ul class="candidate">
     {% for candidate in candidates %}
         <li>{{ candidate.name }}</li>
