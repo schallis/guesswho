@@ -1,7 +1,5 @@
 import logging
 
-from django.db.models import Q
-
 from guesswho.core.models import Person
 from guesswho.core.exceptions import BadGameConfig
 

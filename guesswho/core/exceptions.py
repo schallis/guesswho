@@ -1,3 +1,2 @@
 class BadGameConfig(Exception):
     pass
-

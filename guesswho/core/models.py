@@ -1,10 +1,6 @@
 import logging
 
 from django.db import models
-from django.db.models.signals import m2m_changed
-from django.core.exceptions import ValidationError
-
-from guesswho.core.exceptions import InvalidQuestion
 
 log = logging.getLogger(__name__)
 
@@ -56,12 +52,6 @@ class Game(models.Model):
     @property
     def player2(self):
         return self.players.order_by('pk')[1]
-
-
-#def players_changed(sender, **kwargs):
-    #import ipdb; ipdb.set_trace()
-
-#m2m_changed.connect(players_changed, sender=Game.players.through)
 
 
 class TraitValue(models.Model):

@@ -1,19 +1,14 @@
-from mock import Mock
 from nose.tools import assert_raises, eq_
 
 from django.test import TestCase
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 
-from guesswho.core.models import (Person, Game, Question, Trait, TraitValue,
-        Player)
+from guesswho.core.models import (Game, Question, Trait, TraitValue)
 from guesswho.core.logic import (rule_out_candidates, get_game_opponent,
         is_game_complete)
-from guesswho.core.exceptions import BadGameConfig, InvalidQuestion
+from guesswho.core.exceptions import BadGameConfig
 
 
-
-class ModelTests(TestCase):
+class LogicTests(TestCase):
 
     fixtures = ['game_logic']
 

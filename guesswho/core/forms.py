@@ -23,7 +23,8 @@ class QuestionForm(forms.ModelForm):
 
     def __init__(self, player, game, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
-        self.fields['question'] = forms.ChoiceField(choices=get_questions(game))
+        question_choices = get_questions(game)
+        self.fields['question'] = forms.ChoiceField(choices=question_choices)
 
     class Meta:
         model = Question
