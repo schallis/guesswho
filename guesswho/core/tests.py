@@ -67,8 +67,3 @@ class LogicTests(TestCase):
 
         with assert_raises(BadGameConfig):
             eq_(is_game_complete(game), True)
-
-
-    #def test_players_cannot_play_self(self):
-        #game = Game.objects.get(pk=1)
-        #game.players.add(game.player1)

@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'south',
     'guesswho.core',
+    'guesswho.authentication',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -154,5 +155,7 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_URL = '/'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
