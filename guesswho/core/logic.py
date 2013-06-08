@@ -1,28 +1,64 @@
-def is_game_complete()
-    # Check player 1
-    Guess.objects.all
-    for guess in guesses:
-        Q(guess.trait.name, guess.trait.value)
-    Person.objects.filter()
+import logging
+
+from django.db.models import Q
+
+from guesswho.core.models import Person
+from guesswho.core.exceptions import BadGameConfig
+
+log = logging.getLogger(__name__)
 
 
-def reduce_candidates(candidates, question):
-   """Reduce the possible list of candidates based on the question"""
-   qfilters = []
-   if question_correct(question, player1_person):
-       qfilters.append(~Q(question))
+def has_player_won(player):
+    candidates_left = player.candidates.count()
+    if candidates_left < 1:
+        msg = 'No candidates matched the question'
+        log.error(msg)
+        raise BadGameConfig(msg)
+    if candidates_left is 1:
+        return True
+    return False
 
-   return remaining.filter(qfilters)
+
+def is_game_complete(game):
+    for player in [game.player1, game.player2]:
+        if has_player_won(player):
+            game.completed = True
+            game.save()
+            return player
+    return False
+
+
+def question_as_query(question):
+    return {
+        'persontrait__trait__name': question.trait.name,
+        'persontrait__value': question.value.pk
+    }
 
 
 def question_correct(question):
-    question.game
+    """Is the opponents person in the set that matches the question"""
+    opponent = get_game_opponent(question.game, question.player)
+    query = question_as_query(question)
+    if opponent.person in Person.objects.filter(**query):
+        return True
+    return False
 
 
+def rule_out_candidates(question):
+    """Reduce the possible list of candidates based on the question"""
+    correct = question_correct(question)
+    query = question_as_query(question)
+    if correct:
+        # Remove anyone that does not have the traits
+        to_remove = question.player.candidates.exclude(**query)
+    else:
+        # Remove anyone that has the traits
+        to_remove = question.player.candidates.filter(**query)
+    question.player.candidates.remove(*to_remove)
 
 
-def get_question_target(question):
+def get_game_opponent(game, player):
     """Get the game user who is not the one that asked the question"""
-    if question.game.player1 != question.player:
-        return question.game.player2
-    return question.game.player1
+    if game.player1.pk is player.pk:
+        return game.player2
+    return game.player1

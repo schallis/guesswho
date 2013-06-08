@@ -3,14 +3,26 @@
   "pk": 1,
   "model": "auth.User",
   "fields": {
-    "username": "player1"
+    "username": "user1"
   }
 },
 {
   "pk": 2,
   "model": "auth.User",
   "fields": {
-    "username": "player2"
+    "username": "user2"
+  }
+},
+{
+  "pk": 3,
+  "model": "auth.user",
+  "fields": {
+    "username": "admin",
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true,
+    "password": "pbkdf2_sha256$10000$xjKkKsZReOEs$GHcG3sBAj0E3IW1ZdSRqSoHCXXSWfqkTclLfs6yfLbs=",
+    "email": "admin@admin.com"
   }
 },
 {
@@ -95,6 +107,17 @@
   }
 },
 {
+  "pk": 3,
+  "model": "core.trait",
+  "fields": {
+    "values": [
+      1
+    ],
+    "question": "Unused",
+    "name": "unused"
+  }
+},
+{
   "pk": 1,
   "model": "core.persontrait",
   "fields": {
@@ -146,6 +169,45 @@
     "person": 1,
     "value": 5,
     "trait": 2
+  }
+},
+  {
+  "pk": 1,
+  "model": "core.player",
+  "fields": {
+    "user": 1,
+    "candidates": [
+      1,
+      2,
+      3
+    ],
+    "person": 2
+  }
+},
+{
+  "pk": 2,
+  "model": "core.player",
+  "fields": {
+    "user": 2,
+    "candidates": [
+      1,
+      2,
+      3
+    ],
+    "person": 2
+  }
+},
+{
+  "pk": 1,
+  "model": "core.game",
+  "fields": {
+    "players": [
+      1,
+      2
+    ],
+    "start_date": "2013-06-08T18:20:39Z",
+    "complete": false,
+    "winner": null
   }
 }
 ]
