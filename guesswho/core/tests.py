@@ -15,7 +15,7 @@ from guesswho.core.exceptions import BadGameConfig, InvalidQuestion
 
 class ModelTests(TestCase):
 
-    fixtures = ['initial_data']
+    fixtures = ['game_logic']
 
     def test_get_game_opponent_as_1(self):
         game = Game.objects.get(pk=1)
